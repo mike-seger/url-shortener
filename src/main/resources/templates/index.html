@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+	class Statistics extends React.Component {
+	constructor(props) {
+    super(props);
+    this.state = { json:null };
+    this.url = null;
+  }
+
+  async getData(){
+      const account = await fetch('http://localhost/api/accountid')
+          .then(response => response.text()).then(data => data);
+
+      const newurl = 'http://localhost/api/statistic/' + account;
+      this.url = newurl;
+      await fetch(newurl)
+          .then(response => response.json())
+          .then(data => this.setState({json: data}));
+  }
+
+  async tick() {
+      await fetch(this.url)
+          .then(response => response.json())
+          .then(data => this.setState({json: data}));
+  }
+
+  componentDidMount() {
+      this.getData()
+
+      setInterval(() => this.tick(), 3000);
+  }
+
+  render() {
+      const dataString = JSON.stringify(this.state.json);
+      const cleanedDataString = dataString.substring(1, dataString.length - 1);
+      const statistics = cleanedDataString.split(",");
+      let status;
+      console.log(statistics.length);
+      console.log(statistics);
+      if (statistics.length === 1 && statistics[0] === ""){
+          status = "You did not shorten any URLs yet."
+      }
+      else{
+          status = "Statistics:"
+      }
+
+      return (
+          <div>
+              {status}
+              {statistics.map(datum =>
+                  <li>{datum}</li>
+              )}
+          </div>
+      );
+  }
+}
+      ReactDOM.render(
+        <Statistics />,
+        document.getElementById('root')
+      );
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Help</title>
+</head>
+<body>
+<h1>Help page</h1>
+<p>&nbsp;</p>
+<p><strong>Installation and launch:</strong></p>
+<p>In a terminal, navigate to the directory where you placed the url-shortener-0.0.1-SNAPSHOT.jar file and run the application with the following command: java -jar url-shortener-0.0.1-SNAPSHOT.jar</p>
+<p>&nbsp;</p>
+<p><strong>Usage:</strong></p>
+<p>The content type for any and all post request bodies must be application/json.</p>
+<p>1.Create an account by sending a post request to the /api/account endpoint. The request body should be in the following format:</p>
+<p>{</p>
+<p>"AccountId":"myAccountId"</p>
+<p>}</p>
+<p>where myAccountId is the account ID of the account you wish to create. The request response will include a generated password which must be used for basic authentication for requests made to all of the following endpoints listed in this document.</p>
+<p>&nbsp;</p>
+<p>2.Shorten a URL by sending a post request to the /api/register endpoint. The request body should be in the following format:</p>
+<p>{</p>
+<p>"url":"http://www.somedomain.com/somepath/",</p>
+<p>"redirectType":301</p>
+<p>}</p>
+<p>If a redirect type is not specified, the shortlink will use a 302 redirect by default.</p>
+<p>&nbsp;</p>
+<p>3.Get statistics regarding the number of redirects to each destination URL from the /api/statistic/{AccountId} endpoint. The response will be in JSON format and will contain key-value pairs denoting all of the registered destination URLs and the number of redirects performed to each of them.</p>
+<p>&nbsp;</p>
+<p>4.The root URL contains a web page showing redirect statistics for the authenticated user. You can authenticate by entering your AccountId and password in the authentication form displayed at the root URL.</p>
+<p>&nbsp;</p>
+</body>
+</html>
